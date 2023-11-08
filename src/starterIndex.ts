@@ -2,12 +2,12 @@ import {
   App,
   ItemView,
   Modal,
+  Notice,
   Platform,
   Plugin,
   PluginSettingTab,
   TFile,
   TFolder,
-  WorkspaceLeaf,
 } from "obsidian";
 import {
   createApp,
@@ -61,18 +61,8 @@ export default class MyPlugin extends Plugin {
     await this.loadSettings();
     this.addSettingTab(new SampleSettingTab(this.app, this));
 
-    this.registerView(
-      VIEW_TYPE,
-      (leaf: WorkspaceLeaf) => (this.view = new MyVueView(leaf))
-    );
-
     this.registerEvent(
       this.app.workspace.on("file-menu", (menu, file) => {
-        if (file instanceof TFolder) {
-          // 一定进不来，为了 ts 不报错
-          return;
-        }
-
         if (file instanceof TFile) {
           const isImg = ["png", "jpg", "jpeg", "gif", "webp"].includes(
             file.extension
@@ -81,23 +71,49 @@ export default class MyPlugin extends Plugin {
           if (isImg) {
             // 暂不处理
           } else {
-            // nothing
+            menu.addItem((item) => {
+              item
+                .setTitle("Add a post cover banner hero image")
+                .onClick(() => {
+                  // nothing
+                  const postTitle = file.basename ?? "untitled";
+                  const encodedPostTitle = encodeURIComponent(postTitle);
+                  // console.log(postTitle);
+                  const baseUrl = "http://f.ijust.cc/release/?title=";
+                  const finalUrl = baseUrl + encodedPostTitle;
+                  // console.log(finalUrl);
+
+                  // file 在最顶部添加一张 markdown 图片
+                  file.vault.process(file, (data) => {
+                    // console.log(data);
+                    const str = `![${postTitle}](${finalUrl})\n\n` + data;
+                    return str;
+                  });
+                });
+            });
           }
         }
       })
     );
 
-    // This creates an icon in the left ribbon.
-    this.addRibbonIcon("dice", "悬浮展示1", (evt: MouseEvent) => {
-      console.log(evt);
-      this.openMapView();
-    });
-
     // 在这里注册命令 This adds a simple command that can be triggered anywhere
     this.addCommand({
-      id: "xxx-id",
-      name: "注册命令中文名",
-      callback: () => this.openMapView(),
+      id: "your-own-post-cover-banner-hero-image",
+      name: "Add a post cover banner hero image",
+
+      editorCallback: (editor, view) => {
+        // 当前的编辑器和标题
+        // console.log(editor, view);
+        const postTitle = view.file?.basename ?? "untitled";
+        const encodedPostTitle = encodeURIComponent(postTitle);
+        // console.log(encodedPostTitle);
+
+        const baseUrl = "http://f.ijust.cc/release/?title=";
+        const finalUrl = baseUrl + encodedPostTitle;
+        // console.log(finalUrl);
+        // 在当前文章的顶部插入一张图片
+        editor.replaceSelection(`![${postTitle}](${finalUrl})\n`);
+      },
     });
   }
 
@@ -109,17 +125,6 @@ export default class MyPlugin extends Plugin {
 
   async saveSettings() {
     await this.saveData(this.settings);
-  }
-
-  async openMapView() {
-    const workspace = this.app.workspace;
-    workspace.detachLeavesOfType(VIEW_TYPE);
-    const leaf = workspace.getLeaf(
-      // @ts-ignore
-      !Platform.isMobile
-    );
-    await leaf.setViewState({ type: VIEW_TYPE });
-    workspace.revealLeaf(leaf);
   }
 }
 
