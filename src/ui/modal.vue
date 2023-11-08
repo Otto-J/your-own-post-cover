@@ -138,8 +138,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, reactive, ref, watchEffect } from "vue";
-import { Notice, Modal, TFile, requestUrl, Plugin } from "obsidian";
+import { onMounted, ref } from "vue";
+import { Modal, TFile, Plugin } from "obsidian";
 
 const props = defineProps<{
   plugin: Plugin;

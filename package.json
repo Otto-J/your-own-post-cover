@@ -1,7 +1,7 @@
 {
-  "name": "obsidian-vue-starter",
-  "version": "1.0.0",
-  "description": "A plugin development template for devs who want to use vue in Obsidian.",
+  "name": "your-own-post-cover",
+  "version": "0.0.1",
+  "description": "Add a post cover with title and your name.",
   "main": "main.js",
   "scripts": {
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
@@ -16,7 +16,7 @@
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.5.1",
     "@tsconfig/node18": "^2.0.1",
-    "@types/node": "^18.18.6",
+    "@types/node": "^20",
     "@typescript-eslint/eslint-plugin": "5.32.0",
     "@typescript-eslint/parser": "5.32.0",
     "@vitejs/plugin-vue": "^4.4.0",

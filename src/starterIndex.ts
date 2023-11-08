@@ -18,7 +18,6 @@ import SettingsPage from "./ui/settings.vue";
 import ModalPage from "./ui/modal.vue";
 
 import DemoVue from "./ui/test.vue";
-import { useObsidianFrontmatter } from "./utils";
 
 const VIEW_TYPE = "vue-view";
 
