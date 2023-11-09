@@ -50,12 +50,12 @@
     </div>
     <div class="setting-item-control">
       <select v-if="settings.name" class="dropdown" v-model="settings.name">
-        <option
+        <!-- <option
           :value="item.value"
           v-for="item of []"
           :key="item.value"
           :label="item.name"
-        ></option>
+        ></option> -->
       </select>
       <input
         v-else

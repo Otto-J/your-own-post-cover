@@ -17,11 +17,13 @@ async function syncManifest() {
     ...info,
   };
 
-  fsPromise.writeFile(
+  await fsPromise.writeFile(
     "./manifest.json",
     JSON.stringify(newManifest, null, 2) + "\n"
   );
 }
+
+// syncManifest();
 
 async function main() {
   const data = await fsPromise.readFile("./package.json", "utf8");
