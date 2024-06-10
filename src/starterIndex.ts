@@ -10,7 +10,7 @@ const handleTitleToUrl = (title: string) => {
   const _title = title ?? "untitled";
   const encodedPostTitle = encodeURIComponent(_title);
 
-  const baseUrl = "http://f.ijust.cc/release/?title=";
+  const baseUrl = "https://api.webworker.tech/cover/svg?title=";
   const finalUrl = baseUrl + encodedPostTitle;
   return finalUrl;
 };
